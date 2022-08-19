@@ -3,6 +3,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, g, abort
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
+from models import User, Message, Likes, GearPost, Groups, Activity, AdventurePost
 
 CURR_USER_KEY = "curr_user"
 
