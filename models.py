@@ -1,6 +1,5 @@
 
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 from flask_bcrypt import Bcrypt
 
 bcrypt = Bcrypt()
@@ -12,97 +11,207 @@ class User(db.Model):
 
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
-    first_name = db.Column(db.String(30), nullable=False)
+    name = db.Column(
+        db.Text,
+        nullable=False)
 
-    last_name = db.Column(db.String(30), nullable=False)
+    email = db.Column(
+        db.String(50),
+        nullable=False,
+        unique=True)
 
-    email = db.Column(db.String(50), nullable=False, unique=True)
+    phone = db.Column(
+        db.Integer,
+        nullable=False)
 
-    username = db.Column(db.Text, nullable=False, unique=True)
+    username = db.Column(
+        db.Text, nullable=False,
+        unique=True)
 
-    password = db.Column(db.Text, nullable=False)
+    password = db.Column(
+        db.Text,
+        nullable=False)
 
-    img_url = db.Column(db.Text, default="""NEED TO ADD A DEFAULT IMG""")
+    profile_img = db.Column(
+        db.Text,
+        default="""NEED TO ADD A DEFAULT IMG""")
 
-    messages = db.relationship('Message')
+    city = db.Column(
+        db.Text,
+        nullable=False)
 
-    # need to add in bcrypt functionality
+    state = db.Column(
+        db.Text,
+        nullable=False)
+
+    zip = db.Column(
+        db.Integer,
+        nullable=False)
+
+    def __repr__(self):
+        return f"<User #{self.id}: {self.username}, {self.email}>"
+
+    @classmethod
+    def signup(cls, username, email, password, image_url):
+        """Sign up user.
+        Hashes password and adds user to system.
+        """
+
+        hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
+
+        user = User(
+            username=username,
+            email=email,
+            password=hashed_pwd,
+            image_url=image_url,
+        )
+
+        db.session.add(user)
+        return user
+
+    @classmethod
+    def authenticate(cls, username, password):
+
+        user = cls.query.filter_by(username=username).first()
+
+        if user:
+            is_auth = bcrypt.check_password_hash(user.password, password)
+            if is_auth:
+                return user
+
+        return False
 
 
-class Message(db.Model):
-    """messages between users"""
-
-    __tablename__ = 'messages'
-
-    id = db.Column(db.Integer, primary_key=True)
-
-    text = db.Column(db.String(140), nullable=False)
-
-    timestamp = db.Column(db.DateTime, nullable=False,
-                          default=datetime.utcnow())
-
-    user_id = db.Column(db.Integer, db.ForeignKey(
-        'users.id', ondelete='CASCADE'), nullable=False)
-
-    user = db.relationship('User')
-
-
-class GearPost(db.model):
+class GearPost(db.Model):
     """Gear posted by users for sell, rent, trade"""
 
-    id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'gearposts'
 
-    condition = db.Column(db.Text, nullable=False)
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
-    img_url = db.Column(db.Text, default="""NEED TO ADD A DEFAULT IMG""")
+    condition = db.Column(
+        db.Text,
+        nullable=False)
 
-    price = db.Column(db.Float, nullable=False)
+    img_url = db.Column(
+        db.Text,
+        default="""NEED TO ADD A DEFAULT IMG""")
 
-    location = db.Column(db.Text, nullable=False)
+    price = db.Column(
+        db.Float,
+        nullable=False)
 
-    delivery_method = db.Column(db.Text, nullable=False)
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete='cascade')
+    )
 
-    user_id = db.Column(db.Integer, db.ForeignKey(
-        'users.id', ondelete='CASCADE'), nullable=False)
-
-    activity_id = db.Column(db.Integer, db.ForeignKey(
-        'activities.id', ondelete='CASCADE'), nullable=False)
-
-
-class Likes(db.Model):
-    """User likes (messages, gear, trips, etc)"""
+    activity_id = db.Column(
+        db.Integer,
+        db.ForeignKey(
+            'activities.id',
+            ondelete='CASCADE')
+    )
 
 
 class Groups(db.Model):
     """User groups"""
 
+    __tablename__ = 'groups'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete='CASCADE')
+    )
+
+    activity_id = db.Column(
+        db.Integer,
+        db.ForeignKey(
+            'activities.id',
+            ondelete='CASCADE'
+        )
+    )
+
 
 class Activity(db.Model):
     """Activities available in Last Stop"""
 
-    id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'activities'
 
-    activity_name = db.Column(db.Text, nullable=False, unique=True)
+    id = db.Column(
+        db.Integer,
+        primary_key=True)
+
+    name = db.Column(
+        db.Text,
+        nullable=False,
+        unique=True)
 
 
-class AdventurePost(db.Model):
+class MeetUp(db.Model):
     """User adventure post"""
 
-    id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'meetups'
 
-    # date = db.Column() need to see if this is integer or something else
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
-    exp_level = db.Column(db.Text, nullable=False)
+    date = db.Column(
+        db.Integer,
+    )
 
-    duration = db.Column(db.Integer, nullable=False)
+    exp_level = db.Column(
+        db.Text
+    )
 
-    num_spots = db.Column(db.Integer, nullable=False)
+    trip_length = db.Column(
+        db.String
+    )
 
-    # location = db.Column(db.Text, nullable=False) how to implement the api for this
+    location = db.Column(
+        db.Text
+    )
 
-    img_url = db.Column(db.Text, default="""Need to add a default img""")
+    img_url = db.Column(
+        db.Text
+    )
+
+    description = db.Column(
+        db.Text
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id', ondelete='CASCADE')
+    )
+
+    activity_id = db.Column(
+        db.Integer,
+        db.ForeignKey(
+            'activities.id',
+            ondelete='CASCADE'
+        )
+    )
+
+    groups_id = db.Column(
+        db.Integer,
+        db.ForeignKey('groups.id', ondelete='CASCADE')
+    )
 
 
 def connect_db(app):
