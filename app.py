@@ -73,7 +73,7 @@ def signup():
                 username=form.username.data,
                 password=form.password.data,
                 email=form.email.data,
-                image_url=form.image_url.data or User.image_url.default.arg,
+                image=form.image.data or User.image.default.arg,
                 phone=form.phone.data,
                 city=form.city.data,
                 state=form.state.data,

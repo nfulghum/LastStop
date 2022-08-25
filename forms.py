@@ -11,7 +11,7 @@ class UserAddForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[Length(min=6)])
-    image_url = StringField('(Optional) Image URL')
+    image = StringField('(Optional) Image URL')
     phone = StringField('Phone', validators=[DataRequired()])
     city = StringField('City', validators=[DataRequired()])
     state = StringField('State', validators=[DataRequired()])
@@ -29,7 +29,7 @@ class GearPostForm(FlaskForm):
     """Gear Post form"""
 
     condition = StringField('Condition', validators=[DataRequired()])
-    image_url = StringField('(Optional) Image URL')
+    image = StringField('(Optional) Image URL')
     price = FloatField('Price', validators=[DataRequired()])
     description = TextAreaField('text', validators=[DataRequired()])
 
@@ -49,5 +49,5 @@ class MeetUpForm(FlaskForm):
     exp_level = StringField('Experience Level', validators=[DataRequired()])
     trip_length = StringField('Trip Length', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
-    image_url = StringField('(Optional) Image URL')
+    image = StringField('(Optional) Image URL')
     description = TextAreaField('text', validators=[DataRequired()])

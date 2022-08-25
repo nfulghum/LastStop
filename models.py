@@ -26,7 +26,7 @@ class User(db.Model):
         unique=True)
 
     phone = db.Column(
-        db.Integer,
+        db.Text,
         nullable=False)
 
     username = db.Column(
@@ -37,7 +37,7 @@ class User(db.Model):
         db.Text,
         nullable=False)
 
-    profile_img = db.Column(
+    image = db.Column(
         db.Text,
         default="""NEED TO ADD A DEFAULT IMG""")
 
@@ -57,7 +57,7 @@ class User(db.Model):
         return f"<User #{self.id}: {self.username}, {self.email}>"
 
     @classmethod
-    def signup(cls, name, username, email, password, image_url, phone, city, state, zip):
+    def signup(cls, name, username, email, password, image, phone, city, state, zip):
         """Sign up user.
         Hashes password and adds user to system.
         """
@@ -69,7 +69,7 @@ class User(db.Model):
             username=username,
             email=email,
             password=hashed_pwd,
-            image_url=image_url,
+            image=image,
             phone=phone,
             city=city,
             state=state,

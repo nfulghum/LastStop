@@ -29,18 +29,20 @@
 							<div class="card-body" style="padding: 40px;">
 								<form id="login-form" name="login-form" class="mb-0" action="#" method="post">
 									<h3>Login to your Account</h3>
+									{{ form.hidden_tag() }}
+									{% for field in form if field.widget.input_type != 'hidden' %}
+									{% for error in field.errors %}
+									<span class="text-danger">{{ error }}</span>
+									{% endfor %}
+									{% endfor %}
 
 									<div class="row">
 										<div class="col-12 form-group">
-											<label for="login-form-username">Username:</label>
-											<input type="text" id="login-form-username" name="login-form-username"
-												value="" class="form-control not-dark" />
+											{{ form.username.label}}: {{ form.username(class="form-control not-dark")}}
 										</div>
 
 										<div class="col-12 form-group">
-											<label for="login-form-password">Password:</label>
-											<input type="password" id="login-form-password" name="login-form-password"
-												value="" class="form-control not-dark" />
+											{{ form.password.label}}: {{ form.password(class="form-control not-dark")}}
 										</div>
 
 										<div class="col-12 form-group">
