@@ -70,6 +70,22 @@
 
 							<ul class="menu-container">
 								<li class="menu-item">
+									<a class="menu-link" href="/gear">
+										<div>Gear</div>
+									</a>
+								</li>
+								<li class="menu-item">
+									<a class="menu-link" href="/meet-ups">
+										<div>Meet Ups</div>
+									</a>
+								</li>
+								<li class="menu-item">
+									<a class="menu-link" href="/groups">
+										<div>Groups</div>
+									</a>
+								</li>
+								{% if not g.user %}
+								<li class="menu-item">
 									<a class="menu-link" href="/login">
 										<div>Login</div>
 									</a>
@@ -79,6 +95,18 @@
 										<div>Register</div>
 									</a>
 								</li>
+								{% else %}
+								<li class="menu-item">
+									<a class="menu-link" href="/profile">
+										<div>Profile</div>
+									</a>
+								</li>
+								<li class="menu-item">
+									<a class="menu-link" href="/logout">
+										<div>Logout</div>
+									</a>
+								</li>
+								{% endif %}
 							</ul>
 
 						</nav><!-- #primary-menu end -->
@@ -117,7 +145,8 @@
 								<div class="slider-caption slider-caption-center">
 									<h2 data-animate="fadeInUp">A New Way to Explore</h2>
 									<p class="d-none d-sm-block" data-animate="fadeInUp" data-delay="200">Meet up with
-										like minded outdoor enthusiasts for weekend get aways. </p>
+										like minded outdoor enthusiasts for once in a lifetime trips or quick weekend
+										get aways. </p>
 								</div>
 							</div>
 							<div class="video-wrap">
@@ -133,8 +162,8 @@
 							<div class="container">
 								<div class="slider-caption">
 									<h2 data-animate="fadeInUp">Endless Possibilities</h2>
-									<p class="d-none d-sm-block" data-animate="fadeInUp" data-delay="200">Nature is
-										calling...
+									<p class="d-none d-sm-block" data-animate="fadeInUp" data-delay="200">Create
+										memories that will last a lifetime.
 									</p>
 								</div>
 							</div>

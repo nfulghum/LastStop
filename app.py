@@ -24,7 +24,7 @@ connect_db(app)
 
 @app.route('/')
 def index():
-    return render_template('home-anon.html')
+    return render_template('home.html')
 
 
 ############################
