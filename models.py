@@ -57,7 +57,7 @@ class User(db.Model):
         return f"<User #{self.id}: {self.username}, {self.email}>"
 
     @classmethod
-    def signup(cls, username, email, password, image_url):
+    def signup(cls, name, username, email, password, image_url, phone, city, state, zip):
         """Sign up user.
         Hashes password and adds user to system.
         """
@@ -65,10 +65,15 @@ class User(db.Model):
         hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
 
         user = User(
+            name=name,
             username=username,
             email=email,
             password=hashed_pwd,
             image_url=image_url,
+            phone=phone,
+            city=city,
+            state=state,
+            zip=zip,
         )
 
         db.session.add(user)
@@ -130,6 +135,16 @@ class Groups(db.Model):
     id = db.Column(
         db.Integer,
         primary_key=True
+    )
+
+    name = db.Column(
+        db.Text,
+        nullable=False
+    )
+
+    description = db.Column(
+        db.Text,
+        nullable=False
     )
 
     user_id = db.Column(
