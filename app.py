@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, flash, redirect, session, g, 
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from models import User, GearPost, Groups, Activity, MeetUp, connect_db, db
-from forms import LoginForm, UserAddForm
+from forms import GearPostForm, LoginForm, UserAddForm
 
 CURR_USER_KEY = "curr_user"
 
@@ -121,3 +121,38 @@ def logout():
     flash("Logged out")
 
     return redirect('/')
+
+##########################################
+# User routes
+
+
+@app.route('/<int:user_id>')
+def users_profile(user_id):
+    """Show users profile"""
+
+    user = User.query.get_or_404(user_id)
+
+    return render_template('users/profile.html', user=user)
+
+###########################################
+# Gear routes
+
+
+@app.route('/gear/new', methods=["GET", "POST"])
+def add_gear():
+    """Add a gear post"""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect('/')
+
+    form = GearPostForm()
+
+    if form.validate_on_submit():
+        gear = GearPost(text=form.text.data)
+        g.user.gearposts.append(gear)
+        db.session.commit()
+
+        return redirect(f'/users/{g.user.id}')
+
+    return render_template('gear/new.html', form=form)
