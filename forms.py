@@ -12,10 +12,25 @@ class UserAddForm(FlaskForm):
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[Length(min=6)])
     image = StringField('(Optional) Image URL')
+    bio = TextAreaField('Bio')
     phone = StringField('Phone', validators=[DataRequired()])
     city = StringField('City', validators=[DataRequired()])
     state = StringField('State', validators=[DataRequired()])
     zip = StringField('Zip', validators=[DataRequired()])
+
+
+class UserEditForm(FlaskForm):
+    """Form for editing users"""
+
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    image = StringField('Image URL')
+    bio = TextAreaField('Tell us about yourself')
+    phone = StringField('Phone', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired()])
+    zip = StringField('Zip', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[Length(min=6)])
 
 
 class LoginForm(FlaskForm):
@@ -28,17 +43,17 @@ class LoginForm(FlaskForm):
 class GearPostForm(FlaskForm):
     """Gear Post form"""
 
-    condition = StringField('Condition', validators=[DataRequired()])
+    condition = StringField('Condition')
     image = StringField('(Optional) Image URL')
-    price = FloatField('Price', validators=[DataRequired()])
-    description = TextAreaField('text', validators=[DataRequired()])
+    price = FloatField('Price')
+    description = TextAreaField('Description')
 
 
 class GroupAddForm(FlaskForm):
     """Create a new group form"""
 
     group_name = StringField('Group Name', validators=[DataRequired()])
-    description = TextAreaField('text', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
 
 
 class MeetUpForm(FlaskForm):
@@ -50,4 +65,4 @@ class MeetUpForm(FlaskForm):
     trip_length = StringField('Trip Length', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
     image = StringField('(Optional) Image URL')
-    description = TextAreaField('text', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])

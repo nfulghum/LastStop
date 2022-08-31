@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Document Wrapper
+	============================================= -->
+<div id="wrapper" class="clearfix">
+
+
+
+    <!-- Header
+		============================================= -->
+    <header id="header" class="full-header">
+        <div id="header-wrap">
+            <div class="container">
+                <div class="header-row">
+
+                    <!-- Logo
+                            ============================================= -->
+                    <div id="logo">
+                        <a href="/">
+                            <h1>Last Stop</h1>
+                        </a>
+                    </div><!-- #logo end -->
+
+                    <!-- Primary Navigation
+                            ============================================= -->
+                    <nav class="primary-menu">
+
+                        <ul class="menu-container">
+                            <li class="menu-item">
+                                <a class="menu-link" href="/gear">
+                                    <div>Gear</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="/meet-ups">
+                                    <div>Meet Ups</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="/groups">
+                                    <div>Groups</div>
+                                </a>
+                            </li>
+                            {% if not g.user %}
+                            <li class="menu-item">
+                                <a class="menu-link" href="/login">
+                                    <div>Login</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="/register">
+                                    <div>Register</div>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="menu-item">
+                                <a class="menu-link" href="/{{ g.user.id }}">
+                                    <div>Profile</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="/logout">
+                                    <div>Logout</div>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+
+                    </nav><!-- #primary-menu end -->
+
+                </div>
+            </div>
+        </div>
+        <div class="header-wrap-clone"></div>
+    </header><!-- #header end -->
+
+    <!-- Page Title
+		============================================= -->
+    <section id="page-title">
+
+        <div class="container clearfix">
+            <h1>Make a Gear Post</h1>
+        </div>
+
+    </section><!-- #page-title end -->
+
+    <!-- Content
+		============================================= -->
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix">
+
+                <div class="row">
+
+                    <div class="col-md-8">
+
+
+                        <h3>Share your gear with the community.</h3>
+
+                        <form id="register-form" name="register-form" class="row" action="#" method="post">
+                            {{ form.hidden_tag() }}
+
+                            {% for field in form if field.widget.input_type != 'hidden' %}
+                            {% for error in field.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                            {% endfor %}
+
+
+
+                            <div class="col-6 form-group">
+                                {{ form.condition.label}}: {{ form.condition(class="form-control")}}
+                            </div>
+                            <div class="col-6 form-group">
+                                {{ form.image.label}}: {{ form.image(class="form-control")}}
+                            </div>
+                            <div class="col-6 form-group">
+                                {{ form.price.label}}: {{ form.price(class="form-control")}}
+                            </div>
+                            <div class="col-6 form-group">
+                                {{ form.description.label}}: {{ form.description(class="form-control")}}
+                            </div>
+
+
+
+                            <div class="w-100"></div>
+
+                            <div class="col-12 form-group">
+                                <button class="btn btn-dark m-0" id="gear-form-submit" name="gear-form-submit"
+                                    value="gear">Post Gear</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section><!-- #content end -->
+
+
+</div><!-- #wrapper end -->
+
+{% endblock %}

@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, flash, redirect, session, g, 
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from models import User, GearPost, Groups, Activity, MeetUp, connect_db, db
-from forms import GearPostForm, LoginForm, UserAddForm
+from forms import GearPostForm, LoginForm, UserAddForm, UserEditForm
 
 CURR_USER_KEY = "curr_user"
 
@@ -73,6 +73,7 @@ def signup():
                 username=form.username.data,
                 password=form.password.data,
                 email=form.email.data,
+                bio=form.bio.data,
                 image=form.image.data or User.image.default.arg,
                 phone=form.phone.data,
                 city=form.city.data,
@@ -134,11 +135,64 @@ def users_profile(user_id):
 
     return render_template('users/profile.html', user=user)
 
+
+@app.route('/edit', methods=["GET", "POST"])
+def edit_profile():
+    """Update profile for current user."""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect('/')
+
+    user = g.user
+    form = UserEditForm(obj=user)
+
+    if form.validate_on_submit():
+        if User.authenticate(user.username, form.password.data):
+            user.username = form.username.data
+            user.email = form.email.data
+            user.image = form.image.data
+            user.bio = form.bio.data
+            user.phone = form.phone.data
+            user.city = form.city.data
+            user.state = form.state.data
+            user.zip = form.zip.data
+
+            db.session.commit()
+            return redirect(f"/{g.user.id}")
+
+        flash("Wrong password, try again", "danger")
+
+    return render_template('users/edit.html', form=form, user_id=user.id)
+
 ###########################################
 # Gear routes
 
 
-@app.route('/gear/new', methods=["GET", "POST"])
+@app.route('/gear')
+def show_gear():
+    """Show gear list"""
+
+    search = request.args.get('q')
+
+    if not search:
+        gear = GearPost.query.all()
+    else:
+        gear = GearPost.query.filter(GearPost.id(f"%{search}%")).all()
+
+    return render_template('gear/gear_list.html', gear=gear)
+
+
+@app.route('/<int:gear_id>', methods=["GET"])
+def single_gear(gear_id):
+    """Show single gear post if clicked on"""
+
+    gear = GearPost.query.get(gear_id)
+
+    return render_template('gear/single_gear.html', gear=gear)
+
+
+@app.route('/new_gear', methods=["GET", "POST"])
 def add_gear():
     """Add a gear post"""
 
@@ -149,10 +203,15 @@ def add_gear():
     form = GearPostForm()
 
     if form.validate_on_submit():
-        gear = GearPost(text=form.text.data)
-        g.user.gearposts.append(gear)
+        gear = GearPost(
+            condition=form.condition.data,
+            image=form.image.data,
+            price=form.price.data,
+            description=form.description.data
+        )
+        g.user.gear.append(gear)
         db.session.commit()
 
-        return redirect(f'/users/{g.user.id}')
+        return redirect(f'/{g.user.id}')
 
-    return render_template('gear/new.html', form=form)
+    return render_template('gear/new_gear.html', form=form)

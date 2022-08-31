@@ -33,6 +33,10 @@ class User(db.Model):
         db.Text, nullable=False,
         unique=True)
 
+    bio = db.Column(
+        db.Text,
+    )
+
     password = db.Column(
         db.Text,
         nullable=False)
@@ -53,11 +57,13 @@ class User(db.Model):
         db.Integer,
         nullable=False)
 
+    gear = db.relationship('GearPost')
+
     def __repr__(self):
         return f"<User #{self.id}: {self.username}, {self.email}>"
 
     @classmethod
-    def signup(cls, name, username, email, password, image, phone, city, state, zip):
+    def signup(cls, name, username, email, password, bio, image, phone, city, state, zip):
         """Sign up user.
         Hashes password and adds user to system.
         """
@@ -69,6 +75,7 @@ class User(db.Model):
             username=username,
             email=email,
             password=hashed_pwd,
+            bio=bio,
             image=image,
             phone=phone,
             city=city,
@@ -106,13 +113,18 @@ class GearPost(db.Model):
         db.Text,
         nullable=False)
 
-    img_url = db.Column(
+    image = db.Column(
         db.Text,
         default="""NEED TO ADD A DEFAULT IMG""")
 
     price = db.Column(
         db.Float,
         nullable=False)
+
+    description = db.Column(
+        db.Text,
+        nullable=False
+    )
 
     user_id = db.Column(
         db.Integer,
@@ -125,6 +137,8 @@ class GearPost(db.Model):
             'activities.id',
             ondelete='CASCADE')
     )
+
+    user = db.relationship('User')
 
 
 class Groups(db.Model):

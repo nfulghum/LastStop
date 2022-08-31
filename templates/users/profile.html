@@ -16,7 +16,9 @@
 					<!-- Logo
 						============================================= -->
 					<div id="logo">
-						<h1>Last Stop</h1>
+						<a href="/">
+							<h1>Last Stop</h1>
+						</a>
 					</div><!-- #logo end -->
 
 					<!-- Primary Navigation
@@ -87,7 +89,9 @@
 
 						<div class="heading-block border-0">
 							<h3>{{ g.user.username }}</h3>
-							<span>Profile Bio</span>
+							<span>My Profile</span>
+							<a href="/edit">Edit Profile |</a>
+							<a href="/new_gear">Post Gear</a>
 						</div>
 
 						<div class="clear"></div>
@@ -108,7 +112,24 @@
 
 										<div class="tab-content clearfix" id="tab-bio">
 
-											<p></p>
+											<div>
+												<p>Name: {{ g.user.name }}</p>
+											</div>
+											<div>
+												<p>Email: {{ g.user.email }}</p>
+											</div>
+											<div>
+												<p>Bio: {{ g.user.bio }}</p>
+											</div>
+											<div>
+												<p>City: {{ g.user.city }}</p>
+											</div>
+											<div>
+												<p>State: {{ g.user.state }}</p>
+											</div>
+											<div>
+												<p>Zip: {{ g.user.zip }}</p>
+											</div>
 
 										</div>
 										<div class="tab-content clearfix" id="tab-posts">

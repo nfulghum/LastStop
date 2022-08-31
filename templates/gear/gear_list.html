@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Document Wrapper
+	============================================= -->
+<div id="wrapper" class="clearfix">
+
+    <!-- Header
+		============================================= -->
+    <header id="header" class="full-header">
+        <div id="header-wrap">
+            <div class="container">
+                <div class="header-row">
+
+                    <!-- Logo
+						============================================= -->
+                    <div id="logo">
+                        <a href="/">
+                            <h1>Last Stop</h1>
+                        </a>
+                    </div><!-- #logo end -->
+
+                    <!-- Primary Navigation
+						============================================= -->
+                    <nav class="primary-menu">
+
+                        <ul class="menu-container">
+                            <li class="menu-item">
+                                <a class="menu-link" href="/gear">
+                                    <div>Gear</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="/meet-ups">
+                                    <div>Meet Ups</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="/groups">
+                                    <div>Groups</div>
+                                </a>
+                            </li>
+                            {% if not g.user %}
+                            <li class="menu-item">
+                                <a class="menu-link" href="/login">
+                                    <div>Login</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="/register">
+                                    <div>Register</div>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="menu-item">
+                                <a class="menu-link" href="/{{ g.user.id }}">
+                                    <div>Profile</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="/logout">
+                                    <div>Logout</div>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+
+                    </nav><!-- #primary-menu end -->
+
+                </div>
+            </div>
+        </div>
+        <div class="header-wrap-clone"></div>
+    </header><!-- #header end -->
+
+    <!-- Page Title
+		============================================= -->
+    <section id="page-title">
+
+        <div class="container clearfix">
+            <h1>Gear</h1>
+            <span></span>
+        </div>
+
+    </section><!-- #page-title end -->
+
+    <!-- Content
+		============================================= -->
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix">
+
+                <div class="row gutter-40 col-mb-80">
+                    <!-- Post Content
+						============================================= -->
+                    <div class="postcontent col-lg-9 order-lg-last">
+
+                        <!-- Shop
+							============================================= -->
+                        <div id="shop" class="shop row grid-container gutter-20" data-layout="fitRows">
+
+
+                            <div class="product col-md-4 col-sm-6 sf-{ g.gear.id }">
+                                <div class="grid-inner">
+                                    <div class="product-image">
+                                        <a href="#"><img src="{ g.gear.image }" alt="Black Polo Tshirt"></a>
+                                        <a href="#"><img src="{ g.gear.image }" alt="Black Polo Tshirt"></a>
+                                        <div class="bg-overlay">
+                                            <div class="bg-overlay-content align-items-end justify-content-between"
+                                                data-hover-animate="fadeIn" data-hover-speed="400">
+
+                                            </div>
+                                            <div class="bg-overlay-bg bg-transparent"></div>
+                                        </div>
+                                    </div>
+                                    <div class="product-desc">
+                                        <div class="product-title">
+                                            <h3><a href="/{{ gear.id }}">{{ gear.description }}</a></h3>
+                                        </div>
+                                        <div class="product-price">Add in gear price</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div><!-- #shop end -->
+
+                    </div><!-- .postcontent end -->
+
+                    <!-- Sidebar
+						============================================= -->
+                    <div class="sidebar col-lg-3">
+                        <div class="sidebar-widgets-wrap">
+
+                            <div class="widget widget-filter-links">
+
+                                <h4>Select Activity</h4>
+                                <ul class="custom-filter ps-2" data-container="#shop" data-active-class="active-filter">
+                                    <li class="widget-filter-reset active-filter"><a href="#" data-filter="*">Clear</a>
+                                    </li>
+                                    <li><a href="#" data-filter=".sf-camping">Camping</a></li>
+                                    <li><a href="#" data-filter=".sf-backpacking">Backpacking</a></li>
+                                    <li><a href="#" data-filter=".sf-overlanding">Overlanding</a></li>
+                                    <li><a href="#" data-filter=".sf-climbing">Climbing</a></li>
+                                    <li><a href="#" data-filter=".sf-bouldering">Bouldering</a></li>
+                                    <li><a href="#" data-filter=".sf-mountain-biking">Mountain Biking</a></li>
+                                    <li><a href="#" data-filter=".sf-cycling">Cycling</a></li>
+                                    <li><a href="#" data-filter=".sf-trail-running">Trail Running</a></li>
+                                    <li><a href="#" data-filter=".sf-kayaking">Kayaking</a></li>
+                                </ul>
+
+                            </div>
+
+                            <div class="widget widget-filter-links">
+
+                                <h4>Sort By</h4>
+                                <ul class="shop-sorting ps-2">
+                                    <li class="widget-filter-reset active-filter"><a href="#"
+                                            data-sort-by="original-order">Clear</a></li>
+                                    <li><a href="#" data-sort-by="name">Name</a></li>
+                                    <li><a href="#" data-sort-by="price_lh">Price: Low to High</a></li>
+                                    <li><a href="#" data-sort-by="price_hl">Price: High to Low</a></li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+                    </div><!-- .sidebar end -->
+                </div>
+
+            </div>
+        </div>
+    </section><!-- #content end -->
+
+</div><!-- #wrapper end -->
+<script>
+    jQuery(document).ready(function ($) {
+        $(window).on('pluginIsotopeReady', function () {
+            $('#shop').isotope({
+                transitionDuration: '0.65s',
+                getSortData: {
+                    name: '.product-title',
+                    price_lh: function (itemElem) {
+                        if ($(itemElem).find('.product-price').find('ins').length > 0) {
+                            var price = $(itemElem).find('.product-price ins').text();
+                        } else {
+                            var price = $(itemElem).find('.product-price').text();
+                        }
+
+                        priceNum = price.split("$");
+
+                        return parseFloat(priceNum[1]);
+                    },
+                    price_hl: function (itemElem) {
+                        if ($(itemElem).find('.product-price').find('ins').length > 0) {
+                            var price = $(itemElem).find('.product-price ins').text();
+                        } else {
+                            var price = $(itemElem).find('.product-price').text();
+                        }
+
+                        priceNum = price.split("$");
+
+                        return parseFloat(priceNum[1]);
+                    }
+                },
+                sortAscending: {
+                    name: true,
+                    price_lh: true,
+                    price_hl: false
+                }
+            });
+
+            $('.custom-filter:not(.no-count)').children('li:not(.widget-filter-reset)').each(function () {
+                var element = $(this),
+                    elementFilter = element.children('a').attr('data-filter'),
+                    elementFilterContainer = element.parents('.custom-filter').attr('data-container');
+
+                elementFilterCount = Number(jQuery(elementFilterContainer).find(elementFilter).length);
+
+                element.append('<span>' + elementFilterCount + '</span>');
+
+            });
+
+            $('.shop-sorting li').click(function () {
+                $('.shop-sorting').find('li').removeClass('active-filter');
+                $(this).addClass('active-filter');
+                var sortByValue = $(this).find('a').attr('data-sort-by');
+                $('#shop').isotope({ sortBy: sortByValue });
+                return false;
+            });
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Document Wrapper
+	============================================= -->
+<div id="wrapper" class="clearfix">
+
+
+
+    <!-- Header
+		============================================= -->
+    <header id="header" class="full-header transparent-header no-sticky">
+        <div id="header-wrap">
+            <div class="container">
+                <div class="header-row">
+
+                    <!-- Logo
+						============================================= -->
+                    <div id="logo">
+                        <a href="/" class="standard-logo" data-dark-logo="/static/images/logo-dark.png">
+                            <h1>Last Stop</h1>
+                        </a>
+                        <a href="index.html" class="retina-logo" data-dark-logo="/static/images/logo-dark@2x.png"><img
+                                src="/static/images/logo@2x.png" alt="Canvas Logo"></a>
+                    </div><!-- #logo end -->
+
+
+
+                    <div id="primary-menu-trigger">
+                        <svg class="svg-trigger" viewBox="0 0 100 100">
+                            <path
+                                d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20">
+                            </path>
+                            <path d="m 30,50 h 40"></path>
+                            <path
+                                d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20">
+                            </path>
+                        </svg>
+                    </div>
+
+                    <!-- Primary Navigation
+						============================================= -->
+                    <nav class="primary-menu">
+
+                        <ul class="menu-container">
+
+                            <li class="menu-item">
+                                <a class="menu-link" href="/{{ g.user.id }}">
+                                    <div>Profile</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="/logout">
+                                    <div>Logout</div>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </nav><!-- #primary-menu end -->
+
+                    <form class="top-search-form" action="search.html" method="get">
+                        <input type="text" name="q" class="form-control" value="" placeholder="Type &amp; Hit Enter.."
+                            autocomplete="off">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="header-wrap-clone"></div>
+    </header><!-- #header end -->
+
+    <!-- Page Title
+		============================================= -->
+    <section id="page-title">
+
+        <div class="container clearfix">
+            <h1>My Account</h1>
+        </div>
+
+    </section><!-- #page-title end -->
+
+    <!-- Content
+		============================================= -->
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix">
+
+                <div class="row">
+
+                    <div class="col-md-8">
+
+
+                        <h3>Edit Account</h3>
+
+                        <form id="edit-form" name="edit-form" class="row" action="#" method="post">
+                            {{ form.hidden_tag() }}
+
+                            {% for field in form if field.widget.input_type != 'hidden' %}
+                            {% for error in field.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                            {% endfor %}
+
+
+                            <div class="col-6 form-group">
+                                {{ form.username.label}}: {{ form.username(class="form-control")}}
+                            </div>
+
+                            <div class="col-6 form-group">
+                                {{ form.email.label}}: {{ form.email(class="form-control")}}
+                            </div>
+
+                            <div class="w-100"></div>
+
+                            <div class="col-6 form-group">
+                                {{ form.bio.label}}: {{ form.bio(class="form-control")}}
+                            </div>
+
+                            <div class="col-6 form-group">
+                                {{ form.phone.label}}: {{ form.phone(class="form-control")}}
+                            </div>
+
+                            <div class="col-6 form-group">
+                                {{ form.image.label}}: {{ form.image(class="form-control")}}
+                            </div>
+
+                            <div class="col-6 form-group">
+                                {{ form.password.label}}: {{ form.password(class="form-control")}}
+                            </div>
+
+                            <div class="w-100"></div>
+
+                            <div class="col-6 form-group">
+                                {{ form.city.label}}: {{ form.city(class="form-control")}}
+                            </div>
+
+                            <div class="col-6 form-group">
+                                {{ form.state.label}}: {{ form.state(class="form-control")}}
+                            </div>
+
+                            <div class="col-6 form-group">
+                                {{ form.zip.label}}: {{ form.zip(class="form-control")}}
+                            </div>
+
+
+
+                            <div class="w-100"></div>
+
+                            <div class="col-12 form-group">
+                                <button class="btn btn-dark m-0" id="edit-form-submit" name="edit-form-submit"
+                                    value="edit">Submit Changes</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section><!-- #content end -->
+
+
+</div><!-- #wrapper end -->
+
+{% endblock %}
