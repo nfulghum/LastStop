@@ -49,13 +49,6 @@ class GearPostForm(FlaskForm):
     description = TextAreaField('Description')
 
 
-class GroupAddForm(FlaskForm):
-    """Create a new group form"""
-
-    group_name = StringField('Group Name', validators=[DataRequired()])
-    description = TextAreaField('Description', validators=[DataRequired()])
-
-
 class MeetUpForm(FlaskForm):
     """Create a new meet up form"""
 

@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, g, abort
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-from models import User, GearPost, Groups, Activity, MeetUp, connect_db, db
+from models import User, GearPost, Activity, MeetUp, connect_db, db
 from forms import GearPostForm, LoginForm, UserAddForm, UserEditForm
 
 CURR_USER_KEY = "curr_user"
@@ -173,12 +173,7 @@ def edit_profile():
 def show_gear():
     """Show gear list"""
 
-    search = request.args.get('q')
-
-    if not search:
-        gear = GearPost.query.all()
-    else:
-        gear = GearPost.query.filter(GearPost.id(f"%{search}%")).all()
+    gear = GearPost.query.all()
 
     return render_template('gear/gear_list.html', gear=gear)
 
@@ -187,7 +182,7 @@ def show_gear():
 def single_gear(gear_id):
     """Show single gear post if clicked on"""
 
-    gear = GearPost.query.get(gear_id)
+    gear = GearPost.query.get(gear_id).all()
 
     return render_template('gear/single_gear.html', gear=gear)
 
@@ -212,6 +207,6 @@ def add_gear():
         g.user.gear.append(gear)
         db.session.commit()
 
-        return redirect(f'/{g.user.id}')
+        return redirect(f'/gear')
 
     return render_template('gear/new_gear.html', form=form)

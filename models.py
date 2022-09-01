@@ -141,40 +141,6 @@ class GearPost(db.Model):
     user = db.relationship('User')
 
 
-class Groups(db.Model):
-    """User groups"""
-
-    __tablename__ = 'groups'
-
-    id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
-
-    name = db.Column(
-        db.Text,
-        nullable=False
-    )
-
-    description = db.Column(
-        db.Text,
-        nullable=False
-    )
-
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id', ondelete='CASCADE')
-    )
-
-    activity_id = db.Column(
-        db.Integer,
-        db.ForeignKey(
-            'activities.id',
-            ondelete='CASCADE'
-        )
-    )
-
-
 class Activity(db.Model):
     """Activities available in Last Stop"""
 
