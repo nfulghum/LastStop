@@ -105,7 +105,9 @@
                             {% endfor %}
 
 
-
+                            <div class="col-6 form-group">
+                                {{ form.title.label}}: {{ form.title(class="form-control")}}
+                            </div>
                             <div class="col-6 form-group">
                                 {{ form.condition.label}}: {{ form.condition(class="form-control")}}
                             </div>

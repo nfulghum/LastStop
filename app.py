@@ -127,7 +127,7 @@ def logout():
 # User routes
 
 
-@app.route('/<int:user_id>')
+@app.route('/users/<int:user_id>')
 def users_profile(user_id):
     """Show users profile"""
 
@@ -136,7 +136,7 @@ def users_profile(user_id):
     return render_template('users/profile.html', user=user)
 
 
-@app.route('/edit', methods=["GET", "POST"])
+@app.route('/users/edit', methods=["GET", "POST"])
 def edit_profile():
     """Update profile for current user."""
 
@@ -169,25 +169,25 @@ def edit_profile():
 # Gear routes
 
 
-@app.route('/gear')
+@app.route('/gear/gear-list')
 def show_gear():
     """Show gear list"""
 
     gear = GearPost.query.all()
 
-    return render_template('gear/gear_list.html', gear=gear)
+    return render_template('/gear/gear_list.html', gear=gear)
 
 
-@app.route('/<int:gear_id>', methods=["GET"])
+@app.route('/gear/<int:gear_id>', methods=["GET"])
 def single_gear(gear_id):
     """Show single gear post if clicked on"""
 
     gear = GearPost.query.get(gear_id).all()
 
-    return render_template('gear/single_gear.html', gear=gear)
+    return render_template('/gear/single_gear.html', gear=gear)
 
 
-@app.route('/new_gear', methods=["GET", "POST"])
+@app.route('/gear/new_gear', methods=["GET", "POST"])
 def add_gear():
     """Add a gear post"""
 
@@ -199,6 +199,7 @@ def add_gear():
 
     if form.validate_on_submit():
         gear = GearPost(
+            title=form.title.data,
             condition=form.condition.data,
             image=form.image.data,
             price=form.price.data,
@@ -207,6 +208,6 @@ def add_gear():
         g.user.gear.append(gear)
         db.session.commit()
 
-        return redirect(f'/gear')
+        return redirect(f'/gear/gear-list')
 
-    return render_template('gear/new_gear.html', form=form)
+    return render_template('/gear/new_gear.html', form=form)

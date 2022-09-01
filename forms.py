@@ -42,7 +42,7 @@ class LoginForm(FlaskForm):
 
 class GearPostForm(FlaskForm):
     """Gear Post form"""
-
+    title = StringField('Title')
     condition = StringField('Condition')
     image = StringField('(Optional) Image URL')
     price = FloatField('Price')

@@ -109,6 +109,11 @@ class GearPost(db.Model):
         primary_key=True
     )
 
+    title = db.Column(
+        db.Text,
+        nullable=False
+    )
+
     condition = db.Column(
         db.Text,
         nullable=False)
@@ -128,7 +133,7 @@ class GearPost(db.Model):
 
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey('users.id', ondelete='cascade')
+        db.ForeignKey('users.id', ondelete='CASCADE')
     )
 
     activity_id = db.Column(
@@ -201,11 +206,6 @@ class MeetUp(db.Model):
             'activities.id',
             ondelete='CASCADE'
         )
-    )
-
-    groups_id = db.Column(
-        db.Integer,
-        db.ForeignKey('groups.id', ondelete='CASCADE')
     )
 
 

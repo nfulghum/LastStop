@@ -27,7 +27,7 @@
 
 						<ul class="menu-container">
 							<li class="menu-item">
-								<a class="menu-link" href="/gear">
+								<a class="menu-link" href="/gear/gear-list">
 									<div>Gear</div>
 								</a>
 							</li>
@@ -50,7 +50,7 @@
 							</li>
 							{% else %}
 							<li class="menu-item">
-								<a class="menu-link" href="/{{ g.user.id }}">
+								<a class="menu-link" href="/users/{{ g.user.id }}">
 									<div>Profile</div>
 								</a>
 							</li>
@@ -86,8 +86,8 @@
 						<div class="heading-block border-0">
 							<h3>{{ g.user.username }}</h3>
 							<span>My Profile</span>
-							<a href="/edit">Edit Profile |</a>
-							<a href="/new_gear">Post Gear</a>
+							<a href="/users/edit">Edit Profile |</a>
+							<a href="/gear/new_gear">Post Gear</a>
 						</div>
 
 						<div class="clear"></div>
@@ -101,7 +101,7 @@
 									<ul class="tab-nav clearfix">
 										<li><a href="#tab-bio"><i class=""></i> About Me</a></li>
 										<li><a href="#tab-posts"><i class=""></i> Posts</a></li>
-										<li><a href="#tab-groups"><i class=""></i> Groups</a></li>
+										<li><a href="#tab-groups"><i class=""></i> Meet Ups</a></li>
 									</ul>
 
 									<div class="tab-container">
