@@ -182,7 +182,7 @@ def show_gear():
 def single_gear(gear_id):
     """Show single gear post if clicked on"""
 
-    gear = GearPost.query.get(gear_id).all()
+    gear = GearPost.query.get(gear_id)
 
     return render_template('/gear/single_gear.html', gear=gear)
 
@@ -211,3 +211,18 @@ def add_gear():
         return redirect(f'/gear/gear-list')
 
     return render_template('/gear/new_gear.html', form=form)
+
+
+@app.route('/gear/<int:gear_id>/delete', methods=["POST"])
+def gear_delete(gear_id):
+    """Delete Gear Post"""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect('/')
+
+    gear = GearPost.query.get(gear_id)
+    db.session.delete(gear)
+    db.session.commit()
+
+    return redirect(f"/users/{g.user.id}")

@@ -1,6 +1,6 @@
 from unittest.loader import VALID_MODULE_NAME
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, FloatField, DateField
+from wtforms import StringField, PasswordField, TextAreaField, DecimalField, FloatField, DateField
 from wtforms.validators import DataRequired, Email, Length
 
 
@@ -45,7 +45,7 @@ class GearPostForm(FlaskForm):
     title = StringField('Title')
     condition = StringField('Condition')
     image = StringField('(Optional) Image URL')
-    price = FloatField('Price')
+    price = DecimalField('Price')
     description = TextAreaField('Description')
 
 

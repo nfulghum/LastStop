@@ -132,23 +132,18 @@
 
 											<!-- Posts
 												============================================= -->
-											<div class="row gutter-40 posts-md mt-4">
+											<div class="row topmargin-sm">
 
-												<div class="entry col-12">
-													<h2>Post location</h2>
+												<div class="col-lg-3 col-md-6 bottommargin">
+													{% for item in user.gear %}
+													<h6>{{ item.title }}</h6>
+													<a href="/gear/{{ item.id }}"><img src="{{ item.image }}"
+															class="img-thumbnail" alt=""></a>
+													<p>{{ item.description }}</p>
+													{% endfor %}
 												</div>
 
-												<div class="entry col-12">
-													<div class="entry col-12">
-														<h2>Post location</h2>
-													</div>
-												</div>
 
-												<div class="entry col-12">
-													<div class="entry col-12">
-														<h2>Post location</h2>
-													</div>
-												</div>
 											</div>
 
 										</div>
