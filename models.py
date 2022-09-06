@@ -185,7 +185,7 @@ class Event(db.Model):
     )
 
     trip_length = db.Column(
-        db.String,
+        db.Text,
         nullable=False
     )
 
@@ -194,7 +194,7 @@ class Event(db.Model):
         nullable=False
     )
 
-    img_url = db.Column(
+    image = db.Column(
         db.Text,
         nullable=False
     )

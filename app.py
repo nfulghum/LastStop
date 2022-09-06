@@ -260,13 +260,13 @@ def add_event():
     form = EventForm()
 
     if form.validate_on_submit():
-        event = EventForm(
+        event = Event(
             title=form.title.data,
             exp_level=form.exp_level.data,
-            image=form.image.data,
             trip_length=form.trip_length.data,
-            description=form.description.data,
-            location=form.location.data
+            location=form.location.data,
+            image=form.image.data,
+            description=form.description.data
         )
 
         g.user.event.append(event)
