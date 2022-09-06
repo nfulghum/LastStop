@@ -2,6 +2,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
+
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 
@@ -58,6 +59,8 @@ class User(db.Model):
         nullable=False)
 
     gear = db.relationship('GearPost')
+
+    event = db.relationship('Event')
 
     def __repr__(self):
         return f"<User #{self.id}: {self.username}, {self.email}>"
@@ -161,38 +164,44 @@ class Activity(db.Model):
         unique=True)
 
 
-class MeetUp(db.Model):
+class Event(db.Model):
     """User adventure post"""
 
-    __tablename__ = 'meetups'
+    __tablename__ = 'events'
 
     id = db.Column(
         db.Integer,
         primary_key=True
     )
 
-    date = db.Column(
-        db.Integer,
+    title = db.Column(
+        db.Text,
+        nullable=False
     )
 
     exp_level = db.Column(
-        db.Text
+        db.Text,
+        nullable=False
     )
 
     trip_length = db.Column(
-        db.String
+        db.String,
+        nullable=False
     )
 
     location = db.Column(
-        db.Text
+        db.Text,
+        nullable=False
     )
 
     img_url = db.Column(
-        db.Text
+        db.Text,
+        nullable=False
     )
 
     description = db.Column(
-        db.Text
+        db.Text,
+        nullable=False
     )
 
     user_id = db.Column(
@@ -207,6 +216,8 @@ class MeetUp(db.Model):
             ondelete='CASCADE'
         )
     )
+
+    user = db.relationship('User')
 
 
 def connect_db(app):

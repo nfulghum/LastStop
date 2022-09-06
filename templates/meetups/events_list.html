@@ -14,7 +14,7 @@
 				<div class="header-row">
 
 					<!-- Logo
-								============================================= -->
+							============================================= -->
 					<div id="logo">
 						<a href="/">
 							<h1>Last Stop</h1>
@@ -22,7 +22,7 @@
 					</div><!-- #logo end -->
 
 					<!-- Primary Navigation
-								============================================= -->
+							============================================= -->
 					<nav class="primary-menu">
 
 						<ul class="menu-container">
@@ -71,13 +71,13 @@
 	</header><!-- #header end -->
 
 
-
 	<!-- Page Title
 		============================================= -->
 	<section id="page-title">
 
 		<div class="container clearfix">
-			<h1>{{ gear.title }}</h1>
+			<h1>Events List</h1>
+			<span>The beginning to your next adventure.</span>
 		</div>
 
 	</section><!-- #page-title end -->
@@ -88,72 +88,39 @@
 		<div class="content-wrap">
 			<div class="container clearfix">
 
-				<div class="single-product">
-					<div class="product">
-						<div class="row gutter-40">
-
-							<div class="col-md-5">
-
-								<!-- Product Single - Gallery
-									============================================= -->
-								<div class="product-image">
-									<div class="fslider" data-pagi="false" data-arrows="false" data-thumbs="true">
-										<div class="flexslider">
-											<div class="slider-wrap" data-lightbox="gallery">
-												<div class="slide" data-thumb="{{ gear.image }}"><a
-														href="{{ gear.image }}" title="{ gear.title }"
-														data-lightbox="gallery-item"><img src="{{ gear.image }}"
-															alt="{ gear.title }"></a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div><!-- Product Single - Gallery End -->
+				<div class="row">
+					{% for post in event %}
+					<div class="entry event col-12">
+						<div class="grid-inner row align-items-center g-0 p-4">
+							<div class="col-md-4 mb-md-0">
+								<a href="#" class="entry-image">
+									<img src="{{ post.image }}" alt="">
+									<div class="entry-date">{{ post.date }}</div>
+								</a>
 							</div>
-
-							<div class="col-md-5 product-desc">
-
-								<div class="d-flex align-items-center justify-content-between">
-
-									<!-- Product Single - Price
-										============================================= -->
-									<div class="product-price">${{ gear.price }}</div>
-									<!-- Product Single - Price End -->
-
+							<div class="col-md-8 ps-md-4">
+								<div class="entry-title title-sm">
+									<h2><a href="#"></a></h2>
 								</div>
-
-								<div class="line"></div>
-
-								<!-- Product Single - Short Description
-									============================================= -->
-								<div>
-									<h5>Condition</h5>
-									<p> {{ gear.condition }}</p>
+								<div class="entry-meta">
+									{{ post.location }}
 								</div>
-
-								<div>
-									<h5>Description</h5>
-									<p> {{ gear.description }}</p>
+								<div class="entry-content">
+									<p>{{ post.description }}</p>
+									<a href="#" class="btn btn-secondary" disabled="disabled">Sign up</a>
 								</div>
-
-								<div>
-									<h5>Location</h5>
-									<p>{{ gear.user.city }} {{ gear.user.state }}, {{ gear.user.zip }}</p>
-								</div>
-								<div>
-									<h5>Contact Info</h5>
-									<p> {{ gear.user.username }} | {{ gear.user.phone }} | {{ gear.user.email }}</p>
-								</div>
-
 							</div>
 						</div>
 					</div>
+					{% endfor %}
 				</div>
 			</div>
 		</div>
-</div>
-</section><!-- #content end -->
+	</section><!-- #content end -->
+
+
 
 </div><!-- #wrapper end -->
+
 
 {% endblock %}

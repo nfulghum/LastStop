@@ -77,7 +77,7 @@
     <section id="page-title">
 
         <div class="container clearfix">
-            <h1>Post your gear</h1>
+            <h1>Post a meet up</h1>
         </div>
 
     </section><!-- #page-title end -->
@@ -93,9 +93,9 @@
                     <div class="col-md-8">
 
 
-                        <h3>Share your gear with the community.</h3>
 
-                        <form id="register-form" name="register-form" class="row" action="#" method="post">
+
+                        <form id="event-form" name="event-form" class="row" action="#" method="post">
                             {{ form.hidden_tag() }}
 
                             {% for field in form if field.widget.input_type != 'hidden' %}
@@ -104,30 +104,34 @@
                             {% endfor %}
                             {% endfor %}
 
-
                             <div class="col-6 form-group">
                                 {{ form.title.label}}: {{ form.title(class="form-control")}}
                             </div>
+
                             <div class="col-6 form-group">
-                                {{ form.condition.label}}: {{ form.condition(class="form-control")}}
+                                {{ form.exp_level.label}}: {{ form.exp_level(class="form-control")}}
                             </div>
                             <div class="col-6 form-group">
                                 {{ form.image.label}}: {{ form.image(class="form-control")}}
                             </div>
                             <div class="col-6 form-group">
-                                {{ form.price.label}}: {{ form.price(class="form-control")}}
+                                {{ form.trip_length.label}}: {{ form.trip_length(class="form-control")}}
                             </div>
                             <div class="col-6 form-group">
                                 {{ form.description.label}}: {{ form.description(class="form-control")}}
                             </div>
+                            <div class="col-6 form-group">
+                                {{ form.location.label}}: {{ form.location(class="form-control")}}
+                            </div>
+
 
 
 
                             <div class="w-100"></div>
 
                             <div class="col-12 form-group">
-                                <button class="btn btn-dark m-0" id="gear-form-submit" name="gear-form-submit"
-                                    value="gear">Post Gear</button>
+                                <button class="btn btn-dark m-0" id="event-form-submit" name="event-form-submit"
+                                    value="event">Create Event</button>
                             </div>
 
                         </form>

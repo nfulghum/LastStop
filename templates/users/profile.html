@@ -32,7 +32,7 @@
 								</a>
 							</li>
 							<li class="menu-item">
-								<a class="menu-link" href="/meet-ups">
+								<a class="menu-link" href="/meetups/events">
 									<div>Meet Ups</div>
 								</a>
 							</li>
@@ -87,7 +87,8 @@
 							<h3>{{ g.user.username }}</h3>
 							<span>My Profile</span>
 							<a href="/users/edit">Edit Profile |</a>
-							<a href="/gear/new_gear">Post Gear</a>
+							<a href="/gear/new_gear">Post Gear |</a>
+							<a href="/meetups/new_event">Post Meet Up</a>
 						</div>
 
 						<div class="clear"></div>
@@ -136,10 +137,17 @@
 
 												<div class="col-lg-3 col-md-6 bottommargin">
 													{% for item in user.gear %}
-													<h6>{{ item.title }}</h6>
+													<h4>{{ item.title }}</h4>
 													<a href="/gear/{{ item.id }}"><img src="{{ item.image }}"
 															class="img-thumbnail" alt=""></a>
 													<p>{{ item.description }}</p>
+													{% if g.user %}
+													{% if g.user.id == item.user.id %}
+													<form method="POST" action="/gear/{{ item.id }}/delete">
+														<button class="btn btn-outline-danger">Delete</button>
+													</form>
+													{% endif %}
+													{% endif %}
 													{% endfor %}
 												</div>
 

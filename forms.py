@@ -1,6 +1,6 @@
 from unittest.loader import VALID_MODULE_NAME
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, DecimalField, FloatField, DateField
+from wtforms import StringField, PasswordField, TextAreaField, DecimalField, FloatField, IntegerField
 from wtforms.validators import DataRequired, Email, Length
 
 
@@ -49,11 +49,10 @@ class GearPostForm(FlaskForm):
     description = TextAreaField('Description')
 
 
-class MeetUpForm(FlaskForm):
+class EventForm(FlaskForm):
     """Create a new meet up form"""
 
-    date = DateField('Start Date', format='%m/%d/%Y',
-                     validators=[DataRequired()])
+    title = StringField('Title', validators=[DataRequired()])
     exp_level = StringField('Experience Level', validators=[DataRequired()])
     trip_length = StringField('Trip Length', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])

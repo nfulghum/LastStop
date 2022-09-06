@@ -3,8 +3,8 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, g, abort
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-from models import User, GearPost, Activity, MeetUp, connect_db, db
-from forms import GearPostForm, LoginForm, UserAddForm, UserEditForm
+from models import User, GearPost, Activity, Event, connect_db, db
+from forms import GearPostForm, LoginForm, EventForm, UserAddForm, UserEditForm
 
 CURR_USER_KEY = "curr_user"
 
@@ -223,6 +223,70 @@ def gear_delete(gear_id):
 
     gear = GearPost.query.get(gear_id)
     db.session.delete(gear)
+    db.session.commit()
+
+    return redirect(f"/users/{g.user.id}")
+
+
+###########################################
+# Meet up routes
+
+@app.route('/meetups/events')
+def show_events():
+    """Show list of meet ups"""
+
+    event = Event.query.all()
+
+    return render_template('/meetups/events_list.html', event=event)
+
+
+@app.route('/meetups/<int:event_id>', methods=["GET"])
+def single_event(event_id):
+    """Show single event post if clicked on"""
+
+    event = Event.query.get(event_id)
+
+    return render_template('/meetups/single_event.html', event=event)
+
+
+@app.route('/meetups/new_event', methods=["GET", "POST"])
+def add_event():
+    """Add a event post"""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect('/')
+
+    form = EventForm()
+
+    if form.validate_on_submit():
+        event = EventForm(
+            title=form.title.data,
+            exp_level=form.exp_level.data,
+            image=form.image.data,
+            trip_length=form.trip_length.data,
+            description=form.description.data,
+            location=form.location.data
+        )
+
+        g.user.event.append(event)
+        db.session.commit()
+
+        return redirect(f'/meetups/events')
+
+    return render_template('/meetups/new_event.html', form=form)
+
+
+@app.route('/meetups/<int:event_id>/delete', methods=["POST"])
+def event_delete(event_id):
+    """Delete Event Post"""
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect('/')
+
+    event = Event.query.get(event_id)
+    db.session.delete(event)
     db.session.commit()
 
     return redirect(f"/users/{g.user.id}")
