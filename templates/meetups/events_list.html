@@ -77,7 +77,7 @@
 
 		<div class="container clearfix">
 			<h1>Events List</h1>
-			<span>The beginning to your next adventure.</span>
+			<span>The beginning to your next adventure starts here.</span>
 		</div>
 
 	</section><!-- #page-title end -->
@@ -93,9 +93,8 @@
 					<div class="entry event col-12">
 						<div class="grid-inner row align-items-center g-0 p-4">
 							<div class="col-md-4 mb-md-0">
-								<a href="#" class="entry-image">
-									<img src="{{ post.image }}" alt="">
-									<div class="entry-date">{{ post.date }}</div>
+								<img src="{{ post.image }}" alt="">
+								<div class="entry-date">{{ post.date }}</div>
 								</a>
 							</div>
 							<div class="col-md-8 ps-md-4">
@@ -103,16 +102,17 @@
 									<h2><a href="#"></a></h2>
 								</div>
 								<div class="entry-meta">
-									{{ post.location }}
+									Location: {{ post.location }}
 								</div>
 								<div class="entry-meta">
-									{{ post.exp_level }}
+									Experience: {{ post.exp_level }}
 								</div>
 								<div class="entry-meta">
-									{{ post.trip_length }}
+									Trip Length: {{ post.trip_length }}
 								</div>
 								<div class="entry-content">
-									<a href="#" class="btn btn-secondary" disabled="disabled">Sign Up</a>
+									<a href="/meetups/{{ post.id }}" class="btn btn-secondary" disabled="disabled">Sign
+										Up</a>
 								</div>
 							</div>
 						</div>
