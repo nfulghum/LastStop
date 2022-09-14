@@ -130,37 +130,38 @@
                     <div class="sidebar col-lg-3">
                         <div class="sidebar-widgets-wrap">
 
+
                             <div class="widget widget-filter-links">
 
-                                <h4>Select Activity</h4>
-                                <ul class="custom-filter ps-2" data-container="#shop" data-active-class="active-filter">
-                                    <li class="widget-filter-reset active-filter"><a href="#" data-filter="*">Clear</a>
-                                    </li>
-                                    <li><a href="#" data-filter=".sf-camping">Camping</a></li>
-                                    <li><a href="#" data-filter=".sf-backpacking">Backpacking</a></li>
-                                    <li><a href="#" data-filter=".sf-overlanding">Overlanding</a></li>
-                                    <li><a href="#" data-filter=".sf-climbing">Climbing</a></li>
-                                    <li><a href="#" data-filter=".sf-bouldering">Bouldering</a></li>
-                                    <li><a href="#" data-filter=".sf-mountain-biking">Mountain Biking</a></li>
-                                    <li><a href="#" data-filter=".sf-cycling">Cycling</a></li>
-                                    <li><a href="#" data-filter=".sf-trail-running">Trail Running</a></li>
-                                    <li><a href="#" data-filter=".sf-kayaking">Kayaking</a></li>
-                                </ul>
+                                <h4>Search for gear in your area</h4>
+                                <form id="search-form" name="search-form" class="row" action="#" method="post">
+                                    {{ form.hidden_tag() }}
+
+                                    {% for field in form if field.widget.input_type != 'hidden' %}
+                                    {% for error in field.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                    {% endfor %}
+
+
+                                    <div class="col-6 form-group">
+                                        {{ form.zip_code.label}}: {{ form.zip_code(class="form-control")}}
+                                    </div>
+                                    <div class="col-6 form-group">
+                                        {{ form.radius.label}}: {{ form.radius(class="form-control")}}
+                                    </div>
+
+
+                                    <div class="w-100"></div>
+
+                                    <div class="col-12 form-group">
+                                        <button class="btn btn-dark m-0" id="gear-form-submit" name="gear-form-submit"
+                                            value="gear">Search Gear</button>
+                                    </div>
+
+                                </form>
 
                             </div>
-
-                            <!-- <div class="widget widget-filter-links">
-
-                                <h4>Sort By</h4>
-                                <ul class="shop-sorting ps-2">
-                                    <li class="widget-filter-reset active-filter"><a href="#"
-                                            data-sort-by="original-order">Clear</a></li>
-                                    <li><a href="#" data-sort-by="name">Name</a></li>
-                                    <li><a href="#" data-sort-by="price_lh">Price: Low to High</a></li>
-                                    <li><a href="#" data-sort-by="price_hl">Price: High to Low</a></li>
-                                </ul>
-
-                            </div> -->
 
                         </div>
                     </div>
@@ -172,63 +173,5 @@
     </section><!-- #content end -->
 
 </div><!-- #wrapper end -->
-<script>
-    jQuery(document).ready(function ($) {
-        $(window).on('pluginIsotopeReady', function () {
-            $('#shop').isotope({
-                transitionDuration: '0.65s',
-                getSortData: {
-                    name: '.product-title',
-                    price_lh: function (itemElem) {
-                        if ($(itemElem).find('.product-price').find('ins').length > 0) {
-                            var price = $(itemElem).find('.product-price ins').text();
-                        } else {
-                            var price = $(itemElem).find('.product-price').text();
-                        }
-
-                        priceNum = price.split("$");
-
-                        return parseFloat(priceNum[1]);
-                    },
-                    price_hl: function (itemElem) {
-                        if ($(itemElem).find('.product-price').find('ins').length > 0) {
-                            var price = $(itemElem).find('.product-price ins').text();
-                        } else {
-                            var price = $(itemElem).find('.product-price').text();
-                        }
-
-                        priceNum = price.split("$");
-
-                        return parseFloat(priceNum[1]);
-                    }
-                },
-                sortAscending: {
-                    name: true,
-                    price_lh: true,
-                    price_hl: false
-                }
-            });
-
-            $('.custom-filter:not(.no-count)').children('li:not(.widget-filter-reset)').each(function () {
-                var element = $(this),
-                    elementFilter = element.children('a').attr('data-filter'),
-                    elementFilterContainer = element.parents('.custom-filter').attr('data-container');
-
-                elementFilterCount = Number(jQuery(elementFilterContainer).find(elementFilter).length);
-
-                element.append('<span>' + elementFilterCount + '</span>');
-
-            });
-
-            $('.shop-sorting li').click(function () {
-                $('.shop-sorting').find('li').removeClass('active-filter');
-                $(this).addClass('active-filter');
-                var sortByValue = $(this).find('a').attr('data-sort-by');
-                $('#shop').isotope({ sortBy: sortByValue });
-                return false;
-            });
-        });
-    });
-</script>
 
 {% endblock %}

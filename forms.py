@@ -1,7 +1,25 @@
 from unittest.loader import VALID_MODULE_NAME
+from wsgiref import validate
+from activities import ACTIVITY_CHOICES
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, DecimalField, FloatField, IntegerField
-from wtforms.validators import DataRequired, Email, Length
+from wtforms import StringField, PasswordField, TextAreaField, SelectField, DecimalField, RadioField, FloatField, IntegerField
+from wtforms.validators import DataRequired, Email, Length, NumberRange
+
+
+def create_choices(list):
+    """Create choice tuples to use as multiform choices."""
+
+    result = []
+
+    for choice in list:
+        try:
+            result.append((choice, choice.title()))
+        except:
+            pass
+    return result
+
+
+activity_choices = create_choices(ACTIVITY_CHOICES)
 
 
 class UserAddForm(FlaskForm):
@@ -47,6 +65,8 @@ class GearPostForm(FlaskForm):
     image = StringField('(Optional) Image URL')
     price = DecimalField('Price')
     description = TextAreaField('Description')
+    activity = SelectField(
+        'Event Activity', id='activities', choices=activity_choices)
 
 
 class EventForm(FlaskForm):
@@ -58,3 +78,13 @@ class EventForm(FlaskForm):
     location = StringField('Location', validators=[DataRequired()])
     image = StringField('(Optional) Image URL')
     description = TextAreaField('Description', validators=[DataRequired()])
+    activity = SelectField(
+        'Event Activity', id='activities', choices=activity_choices)
+
+
+class SearchForm(FlaskForm):
+    """Form for searching for events/gear within a radius"""
+
+    zip_code = IntegerField('Zip Code', validators=[NumberRange(
+        min=00000, max=99999, message='Please enter a valid zip code.'), DataRequired()])
+    radius = IntegerField('Radius in miles', default=10)

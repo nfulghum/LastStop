@@ -1,10 +1,10 @@
 import os
-
+import requests
 from flask import Flask, render_template, request, flash, redirect, session, g, abort
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from models import User, GearPost, Activity, Event, connect_db, db
-from forms import GearPostForm, LoginForm, EventForm, UserAddForm, UserEditForm
+from forms import GearPostForm, LoginForm, EventForm, UserAddForm, UserEditForm, SearchForm
 
 CURR_USER_KEY = "curr_user"
 
@@ -16,10 +16,27 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "shhhhh")
+app.config['SECRET_KEY'] = os.environ.get(
+    'SECRET_KEY', "thisKeyIssuPerSecret223454677442")
 toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
+
+filename = 'zipapikey.txt'
+
+
+def get_file_contents(filename):
+    """Get the contents of file"""
+
+    try:
+        with open(filename, 'r') as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        print("'%s' file not found" % filename)
+
+
+API_KEY = os.environ.get('API_KEY', get_file_contents(filename))
+RADIUS_BASE_URL = f'https://www.zipcode.api.com/rest/{API_KEY}/radius.json'
 
 
 @app.route('/')
@@ -165,6 +182,7 @@ def edit_profile():
 
     return render_template('users/edit.html', form=form, user_id=user.id)
 
+
 ###########################################
 # Gear routes
 
@@ -175,7 +193,20 @@ def show_gear():
 
     gear = GearPost.query.all()
 
-    return render_template('/gear/gear_list.html', gear=gear)
+    form = SearchForm()
+
+    if form.validate_on_submit():
+        zip_code = form.zip_code.data
+        radius = form.radius.data
+
+        resp = requests.get(
+            f"{RADIUS_BASE_URL}/{str(zip_code)}/{radius}/miles")
+
+        res = resp.json()
+
+        return render_template('/gear/gear_list.html', res=res, form=form)
+
+    return render_template('/gear/gear_list.html', gear=gear, form=form)
 
 
 @app.route('/gear/<int:gear_id>', methods=["GET"])

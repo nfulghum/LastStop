@@ -1,0 +1,20 @@
+ACTIVITY_CHOICES = [
+    'camping',
+    'backpacking',
+    'overlanding',
+    'hiking',
+    'trail running',
+    'running',
+    'mountaineering',
+    'sport climbing',
+    'bouldering',
+    'kayaking',
+    'paddle boarding',
+    'cycling',
+    'mountain biking',
+    'surfing',
+    'snowboarding',
+    'skateboarding',
+    'wakeboarding',
+    'other'
+]
