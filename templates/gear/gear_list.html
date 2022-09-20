@@ -113,7 +113,7 @@
                                         <div class="product-title">
                                             <h3><a href="/gear/{{ item.id }}">{{ item.title }}</a></h3>
                                         </div>
-                                        <div class="product-price">${{ item.price }}</div>
+                                        <div class="product-price">${{ "%.2f"|format(item.price) }}</div>
 
                                     </div>
                                 </div>
@@ -125,47 +125,6 @@
 
                     </div><!-- .postcontent end -->
 
-                    <!-- Sidebar
-						============================================= -->
-                    <div class="sidebar col-lg-3">
-                        <div class="sidebar-widgets-wrap">
-
-
-                            <div class="widget widget-filter-links">
-
-                                <h4>Search for gear in your area</h4>
-                                <form id="search-form" name="search-form" class="row" action="#" method="post">
-                                    {{ form.hidden_tag() }}
-
-                                    {% for field in form if field.widget.input_type != 'hidden' %}
-                                    {% for error in field.errors %}
-                                    <span class="text-danger">{{ error }}</span>
-                                    {% endfor %}
-                                    {% endfor %}
-
-
-                                    <div class="col-6 form-group">
-                                        {{ form.zip_code.label}}: {{ form.zip_code(class="form-control")}}
-                                    </div>
-                                    <div class="col-6 form-group">
-                                        {{ form.radius.label}}: {{ form.radius(class="form-control")}}
-                                    </div>
-
-
-                                    <div class="w-100"></div>
-
-                                    <div class="col-12 form-group">
-                                        <button class="btn btn-dark m-0" id="gear-form-submit" name="gear-form-submit"
-                                            value="gear">Search Gear</button>
-                                    </div>
-
-                                </form>
-
-                            </div>
-
-                        </div>
-                    </div>
-                    <!-- .sidebar end -->
                 </div>
 
             </div>

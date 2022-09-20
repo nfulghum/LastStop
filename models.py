@@ -189,8 +189,8 @@ class Event(db.Model):
         nullable=False
     )
 
-    location = db.Column(
-        db.Text,
+    address = db.Column(
+        db.String,
         nullable=False
     )
 

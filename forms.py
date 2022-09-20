@@ -75,7 +75,7 @@ class EventForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     exp_level = StringField('Experience Level', validators=[DataRequired()])
     trip_length = StringField('Trip Length', validators=[DataRequired()])
-    location = StringField('Location', validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired()])
     image = StringField('(Optional) Image URL')
     description = TextAreaField('Description', validators=[DataRequired()])
     activity = SelectField(

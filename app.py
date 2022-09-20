@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, flash, redirect, session, g, 
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from models import User, GearPost, Activity, Event, connect_db, db
-from forms import GearPostForm, LoginForm, EventForm, UserAddForm, UserEditForm, SearchForm
+from forms import GearPostForm, LoginForm, EventForm, UserAddForm, UserEditForm
 
 CURR_USER_KEY = "curr_user"
 
@@ -17,12 +17,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get(
-    'SECRET_KEY', "thisKeyIssuPerSecret223454677442")
+    'SECRET_KEY', "6TAtGicOWQEAdYno")
 toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
-filename = 'zipapikey.txt'
+filename = 'mqapikey.txt'
 
 
 def get_file_contents(filename):
@@ -36,7 +36,7 @@ def get_file_contents(filename):
 
 
 API_KEY = os.environ.get('API_KEY', get_file_contents(filename))
-RADIUS_BASE_URL = f'https://www.zipcode.api.com/rest/{API_KEY}/radius.json'
+MAP_BASE_URL = f'https://www.mapquestapi.com/staticmap/v5/map'
 
 
 @app.route('/')
@@ -187,29 +187,16 @@ def edit_profile():
 # Gear routes
 
 
-@app.route('/gear/gear-list')
+@app.route('/gear/gear-list', methods=["GET", "POST"])
 def show_gear():
     """Show gear list"""
 
     gear = GearPost.query.all()
 
-    form = SearchForm()
-
-    if form.validate_on_submit():
-        zip_code = form.zip_code.data
-        radius = form.radius.data
-
-        resp = requests.get(
-            f"{RADIUS_BASE_URL}/{str(zip_code)}/{radius}/miles")
-
-        res = resp.json()
-
-        return render_template('/gear/gear_list.html', res=res, form=form)
-
-    return render_template('/gear/gear_list.html', gear=gear, form=form)
+    return render_template('/gear/gear_list.html', gear=gear)
 
 
-@app.route('/gear/<int:gear_id>', methods=["GET"])
+@ app.route('/gear/<int:gear_id>', methods=["GET"])
 def single_gear(gear_id):
     """Show single gear post if clicked on"""
 
@@ -218,7 +205,7 @@ def single_gear(gear_id):
     return render_template('/gear/single_gear.html', gear=gear)
 
 
-@app.route('/gear/new_gear', methods=["GET", "POST"])
+@ app.route('/gear/new_gear', methods=["GET", "POST"])
 def add_gear():
     """Add a gear post"""
 
@@ -244,7 +231,7 @@ def add_gear():
     return render_template('/gear/new_gear.html', form=form)
 
 
-@app.route('/gear/<int:gear_id>/delete', methods=["POST"])
+@ app.route('/gear/<int:gear_id>/delete', methods=["POST"])
 def gear_delete(gear_id):
     """Delete Gear Post"""
 
@@ -262,7 +249,8 @@ def gear_delete(gear_id):
 ###########################################
 # Meet up routes
 
-@app.route('/meetups/events')
+
+@ app.route('/meetups/events')
 def show_events():
     """Show list of meet ups"""
 
@@ -271,16 +259,23 @@ def show_events():
     return render_template('/meetups/events_list.html', event=event)
 
 
-@app.route('/meetups/<int:event_id>', methods=["GET"])
+@ app.route('/meetups/<int:event_id>', methods=["GET"])
 def single_event(event_id):
     """Show single event post if clicked on"""
 
     event = Event.query.get(event_id)
 
-    return render_template('/meetups/single_event.html', event=event)
+    key = API_KEY
+
+    # address = event.address
+
+    # res = requests.get(f'{MAP_BASE_URL}',
+    #                    params={'key': API_KEY, 'locations': address})
+
+    return render_template('/meetups/single_event.html', event=event, key=key)
 
 
-@app.route('/meetups/new_event', methods=["GET", "POST"])
+@ app.route('/meetups/new_event', methods=["GET", "POST"])
 def add_event():
     """Add a event post"""
 
@@ -295,7 +290,7 @@ def add_event():
             title=form.title.data,
             exp_level=form.exp_level.data,
             trip_length=form.trip_length.data,
-            location=form.location.data,
+            address=form.address.data,
             image=form.image.data,
             description=form.description.data
         )
@@ -308,7 +303,7 @@ def add_event():
     return render_template('/meetups/new_event.html', form=form)
 
 
-@app.route('/meetups/<int:event_id>/delete', methods=["POST"])
+@ app.route('/meetups/<int:event_id>/delete', methods=["POST"])
 def event_delete(event_id):
     """Delete Event Post"""
 

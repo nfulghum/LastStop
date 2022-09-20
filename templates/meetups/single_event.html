@@ -115,10 +115,14 @@
 							</div>
 
 							<h3>Details</h3>
-
 							<p>{{ event.description }}</p>
-
 							<p>To sign up please get in touch with the creator of the event.</p>
+
+							<h3>Location</h3>
+							<p>{{ event.address }} <img
+									src="https://www.mapquestapi.com/staticmap/v5/map?key={{ key }}&locations={{ event.address }}"
+									alt=""></p>
+
 						</div>
 					</div>
 				</div>
